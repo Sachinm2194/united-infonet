@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, ChevronDown, ChevronRight, Menu, X } from "lucide-react";
 import { startTransition, useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -138,7 +139,7 @@ function MobileServiceMenuList({
       href={buildServicePath(service.slug)}
       tabIndex={isMenuOpen && parentExpanded ? 0 : -1}
       onClick={onNavigate}
-      className="flex min-h-10 items-center gap-2 whitespace-normal rounded-lg px-3 text-xs leading-5 text-secondary hover:bg-card hover:text-foreground"
+      className="flex min-h-12 items-center gap-2 whitespace-normal rounded-lg px-3 text-xs leading-5 text-secondary hover:bg-card hover:text-foreground"
     >
       <ArrowRight className="size-4 shrink-0 text-brand" aria-hidden />
       {service.title}
@@ -339,12 +340,12 @@ function MobileProductsNav({
         <button
           type="button"
           aria-expanded={isExpanded}
-          className="flex min-h-10 w-full items-center justify-between rounded-lg px-3 text-left text-xs font-medium text-foreground hover:bg-card"
+          className="flex min-h-12 w-full items-center justify-between gap-3 rounded-lg px-3 text-left text-xs font-medium text-foreground hover:bg-card"
           onClick={() => setExpandedCategory(isExpanded ? null : category.slug)}
         >
           <span className="min-w-0 flex-1 pr-3 leading-5">{category.name}</span>
           <ChevronDown
-            className={cn("size-4 transition-transform", isExpanded && "rotate-180")}
+            className={cn("size-4 shrink-0 text-secondary transition-transform duration-200", isExpanded && "rotate-180")}
             aria-hidden
           />
         </button>
@@ -380,13 +381,12 @@ export function Navbar() {
   const [expandedMobile, setExpandedMobile] = useState<MenuKey | null>(null);
   const [openNavMenu, setOpenNavMenu] = useState<MenuKey | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const navbarRef = useRef<HTMLElement>(null);
   const headerContentRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
   const indicatorRef = useRef<HTMLSpanElement>(null);
   const indicatorGlowRef = useRef<HTMLSpanElement>(null);
-  const mobilePanelRef = useRef<HTMLElement>(null);
-  const mobileOverlayRef = useRef<HTMLButtonElement>(null);
   const mobileButtonRef = useRef<HTMLButtonElement>(null);
   const linkRefs = useRef<Record<string, HTMLElement | null>>({});
 
@@ -450,27 +450,9 @@ export function Navbar() {
     return () => scrollTrigger.kill();
   }, { scope: navbarRef, dependencies: [pathname] });
 
-  useGSAP(() => {
-    const reducedMotion = prefersReducedMotion.current;
-    const panel = mobilePanelRef.current;
-    const overlay = mobileOverlayRef.current;
-    const button = mobileButtonRef.current;
-    if (!panel || !overlay || !button) return;
-    const items = panel.querySelectorAll("[data-mobile-item]");
-    gsap.to(panel, { xPercent: isMenuOpen ? 0 : 100, duration: reducedMotion ? 0 : 0.5, ease: "back.out(1.2)" });
-    gsap.to(overlay, { autoAlpha: isMenuOpen ? 1 : 0, duration: reducedMotion ? 0 : 0.25 });
-    gsap.to(button.querySelector("[data-menu-icon]"), { rotation: isMenuOpen ? 90 : 0, duration: reducedMotion ? 0 : 0.25 });
-    if (isMenuOpen) {
-      gsap.fromTo(items, { x: 16, autoAlpha: 0 }, {
-        x: 0,
-        autoAlpha: 1,
-        duration: reducedMotion ? 0 : 0.25,
-        stagger: reducedMotion ? 0 : 0.05,
-        delay: reducedMotion ? 0 : 0.18,
-        ease: "power2.out",
-      });
-    }
-  }, { scope: navbarRef, dependencies: [isMenuOpen] });
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     startTransition(() => {
@@ -481,13 +463,29 @@ export function Navbar() {
   }, [pathname]);
 
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? "hidden" : "";
-    document.documentElement.classList.toggle("menu-open", isMenuOpen);
-    window.dispatchEvent(new CustomEvent("mobile-menu-change", { detail: { open: isMenuOpen } }));
+    if (!isMenuOpen) {
+      return;
+    }
+
+    const html = document.documentElement;
+    const body = document.body;
+    const scrollY = window.scrollY;
+
+    html.classList.add("menu-open");
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+
     return () => {
-      document.body.style.overflow = "";
-      document.documentElement.classList.remove("menu-open");
-      window.dispatchEvent(new CustomEvent("mobile-menu-change", { detail: { open: false } }));
+      html.classList.remove("menu-open");
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      body.style.right = "";
+      body.style.width = "";
+      window.scrollTo(0, scrollY);
     };
   }, [isMenuOpen]);
 
@@ -579,159 +577,168 @@ export function Navbar() {
             <Button
               ref={mobileButtonRef}
               variant="outline"
-              className="inline-flex size-10 items-center justify-center rounded-lg border border-border text-foreground transition-colors hover:bg-card lg:hidden"
+              className={cn(
+                "inline-flex size-10 items-center justify-center rounded-lg border border-border text-foreground transition-colors hover:bg-card lg:hidden",
+                isMenuOpen && "pointer-events-none invisible",
+              )}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-nav"
-              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-              onClick={() => setIsMenuOpen((open) => !open)}
+              aria-label="Open menu"
+              onClick={() => setIsMenuOpen(true)}
             >
-              <span data-menu-icon className="relative inline-flex size-5 items-center justify-center">
-                <Menu className={cn("absolute size-5 transition-opacity", isMenuOpen && "opacity-0")} aria-hidden />
-                <X className={cn("absolute size-5 transition-opacity", !isMenuOpen && "opacity-0")} aria-hidden />
-              </span>
+              <Menu className="size-5" aria-hidden />
             </Button>
             <ThemeToggle className="hidden lg:inline-flex" />
           </div>
         </div>
       </header>
 
-      <div className="lg:hidden">
-        <button
-          ref={mobileOverlayRef}
-          type="button"
-          aria-label="Close menu"
-          className={cn(
-            cn(
-              "fixed inset-x-0 bottom-0 z-[55] bg-overlay",
-              isScrolled ? "top-16" : "top-20",
-            ),
-            isMenuOpen ? "pointer-events-auto" : "pointer-events-none",
-          )}
-          onClick={() => setIsMenuOpen(false)}
-          tabIndex={isMenuOpen ? 0 : -1}
-        />
-
-        <nav
-          ref={mobilePanelRef}
-          id="mobile-nav"
-          aria-label="Mobile navigation"
-          aria-hidden={!isMenuOpen}
-          className={cn(
-            "fixed bottom-0 right-0 z-[60] flex w-[80vw] max-w-full flex-col border-l border-border bg-header shadow-lg",
-            isScrolled ? "top-16 max-h-[calc(100dvh-4rem)]" : "top-20 max-h-[calc(100dvh-5rem)]",
-          )}
-        >
-          <div className="flex h-16 items-center justify-between border-b border-border px-4 sm:px-6">
-            <span className="text-sm font-semibold text-foreground">Menu</span>
-            <div className="flex items-center gap-2">
-              <ThemeToggle />
+      {isMounted
+        ? createPortal(
+            <div className="lg:hidden">
               <button
                 type="button"
-                className="inline-flex size-10 items-center justify-center rounded-lg border border-border text-foreground transition-colors hover:bg-card"
                 aria-label="Close menu"
+                className={cn(
+                  "fixed inset-0 z-[100] bg-overlay transition-opacity duration-300 ease-out motion-reduce:transition-none",
+                  isMenuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
+                )}
                 onClick={() => setIsMenuOpen(false)}
+                tabIndex={isMenuOpen ? 0 : -1}
+                aria-hidden={!isMenuOpen}
+              />
+
+              <nav
+                id="mobile-nav"
+                aria-label="Mobile navigation"
+                aria-hidden={!isMenuOpen}
+                inert={!isMenuOpen ? true : undefined}
+                className={cn(
+                  "fixed top-0 right-0 bottom-0 z-[110] flex h-dvh max-h-dvh w-[min(85vw,20rem)] max-w-full flex-col border-l border-border bg-header shadow-xl transition-transform duration-300 ease-out motion-reduce:transition-none",
+                  isMenuOpen ? "translate-x-0" : "pointer-events-none translate-x-full",
+                )}
+                style={{ height: "100dvh", maxHeight: "100dvh" }}
               >
-                <X className="size-5" aria-hidden />
-              </button>
-            </div>
-          </div>
-
-          <ul className="custom-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 sm:px-6" data-lenis-prevent>
-            {navLinks.map((link) => {
-              const isActive = isLinkActive(pathname, link.href);
-              const menuKey = link.label === "Services" ? "services" : link.label === "Products" ? "products" : link.label === "Solutions" ? "solutions" : null;
-
-              return (
-                <li key={link.href} data-mobile-item>
-                  {menuKey ? (
+                <div className="flex h-14 shrink-0 items-center justify-between gap-3 border-b border-border px-4">
+                  <span className="text-sm font-semibold text-foreground">Menu</span>
+                  <div className="flex shrink-0 items-center gap-1">
+                    <ThemeToggle />
                     <button
                       type="button"
-                      aria-expanded={expandedMobile === menuKey}
-                      className={cn(
-                        "flex min-h-11 w-full items-center justify-between rounded-lg px-3 text-left text-sm font-medium",
-                        isActive ? "bg-card text-foreground" : "text-secondary hover:bg-card hover:text-foreground",
-                      )}
-                      onClick={() => {
-                        setExpandedMobile((current) => (current === menuKey ? null : menuKey));
-                      }}
-                    >
-                      {link.label}
-                      <ChevronDown
-                        className={cn("size-4 transition-transform", expandedMobile === menuKey && "rotate-180")}
-                        aria-hidden
-                      />
-                    </button>
-                  ) : (
-                    <Link
-                      href={link.href}
-                      tabIndex={isMenuOpen ? 0 : -1}
-                      className={cn(
-                        "flex min-h-11 items-center rounded-lg px-3 text-sm font-medium transition-colors",
-                        isActive
-                          ? "bg-card text-foreground"
-                          : "text-secondary hover:bg-card hover:text-foreground",
-                      )}
+                      className="inline-flex size-10 items-center justify-center rounded-lg border border-border text-foreground transition-colors hover:bg-card"
+                      aria-label="Close menu"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      {link.label}
-                    </Link>
-                  )}
-                  {menuKey && (
-                    <div
-                      className={cn(
-                        "grid overflow-hidden pl-3 transition-[grid-template-rows,opacity]",
-                        expandedMobile === menuKey ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
-                      )}
-                    >
-                      <div className="min-h-0 py-1">
-                        {menuKey === "products" ? (
-                          <MobileProductsNav
-                            isMenuOpen={isMenuOpen}
-                            parentExpanded={expandedMobile === menuKey}
-                            onNavigate={() => setIsMenuOpen(false)}
-                          />
-                        ) : menuKey === "services" ? (
-                          <MobileServiceMenuList
-                            isMenuOpen={isMenuOpen}
-                            parentExpanded={expandedMobile === menuKey}
-                            onNavigate={() => setIsMenuOpen(false)}
-                          />
+                      <X className="size-5" aria-hidden />
+                    </button>
+                  </div>
+                </div>
+
+                <ul
+                  className="custom-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 py-2"
+                  data-lenis-prevent
+                >
+                  {navLinks.map((link) => {
+                    const isActive = isLinkActive(pathname, link.href, link.label);
+                    const menuKey = link.label === "Services" ? "services" : link.label === "Products" ? "products" : link.label === "Solutions" ? "solutions" : null;
+
+                    return (
+                      <li key={link.href} data-mobile-item>
+                        {menuKey ? (
+                          <button
+                            type="button"
+                            aria-expanded={expandedMobile === menuKey}
+                            className={cn(
+                              "flex min-h-14 w-full items-center justify-between gap-3 rounded-lg px-3 text-left text-sm font-medium",
+                              isActive ? "bg-card text-foreground" : "text-secondary hover:bg-card hover:text-foreground",
+                            )}
+                            onClick={() => {
+                              setExpandedMobile((current) => (current === menuKey ? null : menuKey));
+                            }}
+                          >
+                            <span>{link.label}</span>
+                            <ChevronDown
+                              className={cn(
+                                "size-4 shrink-0 text-secondary transition-transform duration-200",
+                                expandedMobile === menuKey && "rotate-180",
+                              )}
+                              aria-hidden
+                            />
+                          </button>
                         ) : (
-                          <div className="space-y-1">
-                            {solutionCatalog.map((solution) => (
-                              <Link
-                                key={solution.slug}
-                                href={buildSolutionPath(solution.slug)}
-                                tabIndex={isMenuOpen && expandedMobile === menuKey ? 0 : -1}
-                                onClick={() => setIsMenuOpen(false)}
-                                className="flex min-h-10 items-center gap-2 whitespace-normal rounded-lg px-3 text-xs leading-5 text-secondary hover:bg-card hover:text-foreground"
-                              >
-                                <ArrowRight className="size-4 shrink-0 text-brand" aria-hidden />
-                                {solution.name}
-                              </Link>
-                            ))}
+                          <Link
+                            href={link.href}
+                            tabIndex={isMenuOpen ? 0 : -1}
+                            className={cn(
+                              "flex min-h-14 items-center rounded-lg px-3 text-sm font-medium transition-colors",
+                              isActive
+                                ? "bg-card text-foreground"
+                                : "text-secondary hover:bg-card hover:text-foreground",
+                            )}
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            {link.label}
+                          </Link>
+                        )}
+                        {menuKey && (
+                          <div
+                            className={cn(
+                              "grid overflow-hidden pl-3 transition-[grid-template-rows,opacity] duration-200",
+                              expandedMobile === menuKey ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+                            )}
+                          >
+                            <div className="min-h-0">
+                              {menuKey === "products" ? (
+                                <MobileProductsNav
+                                  isMenuOpen={isMenuOpen}
+                                  parentExpanded={expandedMobile === menuKey}
+                                  onNavigate={() => setIsMenuOpen(false)}
+                                />
+                              ) : menuKey === "services" ? (
+                                <MobileServiceMenuList
+                                  isMenuOpen={isMenuOpen}
+                                  parentExpanded={expandedMobile === menuKey}
+                                  onNavigate={() => setIsMenuOpen(false)}
+                                />
+                              ) : (
+                                <div className="space-y-0.5 pb-1">
+                                  {solutionCatalog.map((solution) => (
+                                    <Link
+                                      key={solution.slug}
+                                      href={buildSolutionPath(solution.slug)}
+                                      tabIndex={isMenuOpen && expandedMobile === menuKey ? 0 : -1}
+                                      onClick={() => setIsMenuOpen(false)}
+                                      className="flex min-h-12 items-center gap-2 whitespace-normal rounded-lg px-3 text-xs leading-5 text-secondary hover:bg-card hover:text-foreground"
+                                    >
+                                      <ArrowRight className="size-4 shrink-0 text-brand" aria-hidden />
+                                      {solution.name}
+                                    </Link>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
                           </div>
                         )}
-                      </div>
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
+                      </li>
+                    );
+                  })}
+                </ul>
 
-          <div className="shrink-0 border-t border-border bg-header p-4 sm:p-6">
-            <Link
-              href="#contact"
-              tabIndex={isMenuOpen ? 0 : -1}
-              className="navbar-quote-shimmer flex min-h-11 items-center justify-center rounded-lg bg-brand px-4 text-sm font-medium text-on-accent transition-colors hover:bg-brand-hover"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Get a Quote
-            </Link>
-          </div>
-        </nav>
-      </div>
+                <div className="shrink-0 border-t border-border bg-header px-3 py-3">
+                  <Link
+                    href="#contact"
+                    tabIndex={isMenuOpen ? 0 : -1}
+                    className="navbar-quote-shimmer flex min-h-14 items-center justify-center rounded-lg bg-brand px-4 text-sm font-medium text-on-accent transition-colors hover:bg-brand-hover"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Get a Quote
+                  </Link>
+                </div>
+              </nav>
+            </div>,
+            document.body,
+          )
+        : null}
     </>
   );
 }

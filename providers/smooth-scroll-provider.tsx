@@ -1,59 +1,48 @@
 "use client";
 
 import { useEffect, type ReactNode } from "react";
-import Lenis from "lenis";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { ScrollTrigger } from "@/lib/gsap";
+
+function refreshScrollMeasurements() {
+  requestAnimationFrame(() => {
+    ScrollTrigger.refresh();
+  });
+}
+
+function resetDocumentScrollState() {
+  const html = document.documentElement;
+  const body = document.body;
+
+  html.classList.remove("menu-open", "lenis", "lenis-smooth", "lenis-stopped");
+  html.style.overflow = "";
+  body.style.overflow = "";
+  body.style.position = "";
+  body.style.top = "";
+  body.style.left = "";
+  body.style.right = "";
+  body.style.width = "";
+}
 
 /**
- * Wraps the app so all scrolling goes through Lenis (inertia/smoothing),
- * while keeping GSAP's ScrollTrigger perfectly synced to that scroll position.
- *
- * Without this sync step, ScrollTrigger reads the raw browser scroll position
- * while Lenis is still easing toward it — pinned sections and scrubbed
- * animations will jitter and drift out of alignment.
+ * Keeps ScrollTrigger measurements in sync with the native document scrollbar.
+ * The site uses normal browser scrolling (no smooth-scroll hijacking) so every
+ * page can be scrolled fully from top to bottom on all devices.
  */
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
-    // Respect users who've asked the OS for reduced motion —
-    // skip inertia scrolling entirely and let the page behave natively.
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    resetDocumentScrollState();
+    refreshScrollMeasurements();
 
-    if (prefersReducedMotion) {
-      return;
-    }
-
-    const lenis = new Lenis({
-      duration: 1.1,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 1.5,
-      allowNestedScroll: true,
-    });
-
-    lenis.on("scroll", ScrollTrigger.update);
-
-    const handleMobileMenuChange = (event: Event) => {
-      const open = (event as CustomEvent<{ open: boolean }>).detail?.open;
-      if (open) {
-        lenis.stop();
-      } else {
-        lenis.start();
-        ScrollTrigger.refresh();
-      }
-    };
-
-    window.addEventListener("mobile-menu-change", handleMobileMenuChange);
-
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-    gsap.ticker.lagSmoothing(0);
+    const handleResize = () => refreshScrollMeasurements();
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
+    window.addEventListener("load", handleResize);
 
     return () => {
-      lenis.destroy();
-      gsap.ticker.remove(lenis.raf);
-      window.removeEventListener("mobile-menu-change", handleMobileMenuChange);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
+      window.removeEventListener("load", handleResize);
+      resetDocumentScrollState();
     };
   }, []);
 

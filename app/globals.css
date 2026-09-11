@@ -526,6 +526,7 @@ body {
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
     scroll-padding-top: 5rem;
+    overflow-x: hidden;
     scrollbar-width: thin;
     scrollbar-color: color-mix(in srgb, var(--brand) 55%, transparent) transparent;
   }
@@ -546,8 +547,8 @@ body {
   body {
     @apply min-h-dvh bg-background text-foreground;
     -webkit-tap-highlight-color: transparent;
-    overflow-x: clip;
   }
+
   html.menu-open {
     overscroll-behavior: none;
   }

@@ -176,6 +176,10 @@ export function AboutPage() {
           });
         }
       }
+
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
     },
     { scope: pageRef },
   );

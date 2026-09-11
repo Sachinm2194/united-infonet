@@ -39,12 +39,12 @@ const themeInitScript = `
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className="dark h-full" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body
-        className={`flex min-h-full flex-col antialiased ${inclusiveSans.className}`}
+        className={`antialiased ${inclusiveSans.className}`}
         suppressHydrationWarning
       >
         <AppProviders>
