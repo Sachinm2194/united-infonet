@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { CategoryBanner } from "@/components/products/category-banner";
 import { PageContainer } from "@/components/layout/page-container";
 import { buildServicePath, serviceMenuCatalog } from "@/lib/services";
 
@@ -11,7 +12,9 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <PageContainer className="py-10 sm:py-14">
+    <>
+      <CategoryBanner banner="/banners/service-banner.png" title="Services" />
+      <PageContainer className="py-10 sm:py-14">
       <div className="border-b border-border-subtle pb-8">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">What We Do</p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Services</h1>
@@ -34,6 +37,7 @@ export default function ServicesPage() {
           </Link>
         ))}
       </div>
-    </PageContainer>
+      </PageContainer>
+    </>
   );
 }

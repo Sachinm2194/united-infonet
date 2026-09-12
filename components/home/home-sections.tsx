@@ -165,11 +165,11 @@ export function ServiceCard({ item }: { item: CardItem }) {
       </div>
 
       {/* CTA */}
-      <div className="absolute bottom-6 left-6 z-10 flex items-center gap-2 text-sm font-semibold text-brand">
+      {/* <div className="absolute bottom-6 left-6 z-10 flex items-center gap-2 text-sm font-semibold text-brand">
         <span>Learn more</span>
 
         <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-      </div>
+      </div> */}
 
       {/* Bottom hover line */}
       <div className="absolute bottom-0 left-0 h-px w-0 bg-brand transition-all duration-500 group-hover:w-full" />
@@ -627,7 +627,7 @@ function BrandMarquee() {
         {items.map((brand, index) => (
           <div
             key={`${brand.name}-${index}`}
-            className="relative flex h-24 w-44 shrink-0 items-center justify-center rounded-lg border border-border-subtle bg-card px-5 shadow-md transition-all duration-300 hover:z-10 hover:-translate-y-2 hover:scale-110 hover:border-brand/50 hover:shadow-xl"
+            className="relative flex h-24 w-44 shrink-0 items-center justify-center rounded-lg border border-border-subtle bg-white px-5 shadow-md transition-all duration-300 hover:z-10 hover:-translate-y-2 hover:scale-110 hover:border-brand/50 hover:shadow-xl"
           >
             <Image
               src={brand.src}
@@ -644,7 +644,7 @@ function BrandMarquee() {
         {items.map((brand, index) => (
           <div
             key={`reverse-${brand.name}-${index}`}
-            className="relative flex h-24 w-44 shrink-0 items-center justify-center rounded-lg border border-border-subtle bg-card px-5 shadow-md transition-all duration-300 hover:z-10 hover:-translate-y-2 hover:scale-110 hover:border-brand/50 hover:shadow-xl"
+            className="relative flex h-24 w-44 shrink-0 items-center justify-center rounded-lg border border-border-subtle bg-white px-5 shadow-md transition-all duration-300 hover:z-10 hover:-translate-y-2 hover:scale-110 hover:border-brand/50 hover:shadow-xl"
           >
             <Image
               src={brand.src}
