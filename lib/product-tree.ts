@@ -141,7 +141,7 @@ export const productCatalog: ProductNode[] = [
     name: "Wireless Access Points & Controllers",
     shortDescription: "Wireless infrastructure for consistent user access.",
     icon: "Wifi",
-    image: "/products/controller.png",
+    image: "/products/access-point.png",
     availableActions: ["buy", "rent", "amc"],
     conditionOptions: ["New", "Used", "Refurbished"],
     children: [
@@ -176,6 +176,7 @@ export const productCatalog: ProductNode[] = [
     name: "IP Phones",
     shortDescription: "Business communication equipment for connected teams.",
     icon: "Phone",
+    image: "/products/ip-phones.png",
     isPlaceholder: true,
     availableActions: ["buy", "rent"],
     conditionOptions: ["New", "Used", "Refurbished"],
@@ -184,20 +185,20 @@ export const productCatalog: ProductNode[] = [
     // instead of a fabricated spec list. Populate `children` once you have
     // real model data.
   },
-  {
-    slug: "servers",
-    name: "Servers",
-    shortDescription:
-      "Server hardware for infrastructure and workload requirements.",
-    icon: "Server",
-    isPlaceholder: true,
-    availableActions: ["rent", "amc"],
-    conditionOptions: ["New", "Used", "Refurbished"],
-    // Currently only documented under Rental Services (Dell/Lenovo/Microsoft
-    // laptops + generic "servers" line item) — no dedicated server product
-    // line exists in your docs. `availableActions` deliberately omits "buy"
-    // until that's confirmed; adjust once you have real sales data.
-  },
+  // {
+  //   slug: "servers",
+  //   name: "Servers",
+  //   shortDescription:
+  //     "Server hardware for infrastructure and workload requirements.",
+  //   icon: "Server",
+  //   isPlaceholder: true,
+  //   availableActions: ["rent", "amc"],
+  //   conditionOptions: ["New", "Used", "Refurbished"],
+  //   // Currently only documented under Rental Services (Dell/Lenovo/Microsoft
+  //   // laptops + generic "servers" line item) — no dedicated server product
+  //   // line exists in your docs. `availableActions` deliberately omits "buy"
+  //   // until that's confirmed; adjust once you have real sales data.
+  // },
   {
     slug: "uplink-or-network-module",
     name: "Uplink Or Network Module",

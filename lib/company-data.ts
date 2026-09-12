@@ -84,7 +84,7 @@ export const products: CardItem[] = [
   { title: "Firewalls", description: "Security appliances for controlled and protected traffic.", icon: ShieldCheck },
   { title: "Wireless Access Points & Controllers", description: "Wireless infrastructure for consistent user access.", icon: CloudCog },
   { title: "IP Phones", description: "Business communication equipment for connected teams.", icon: LifeBuoy },
-  { title: "Servers", description: "Server hardware for infrastructure and workload requirements.", icon: Server },
+  // { title: "Servers", description: "Server hardware for infrastructure and workload requirements.", icon: Server },
   { title: "Uplink Or Network Module", description: "The components that keep enterprise equipment useful.", icon: Cpu },
 ];
 

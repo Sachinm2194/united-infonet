@@ -19,9 +19,9 @@ const stats = [
 ];
 
 const milestones = [
-  { year: "2015", title: "United Infonet begins", progress: 0.1 },
-  { year: "2018", title: "Expanding enterprise capability", progress: 0.34 },
-  { year: "2021", title: "End-to-end support takes shape", progress: 0.62 },
+  { year: "2019", title: "United Infonet begins", progress: 0.1 },
+  { year: "2021", title: "Expanding enterprise capability", progress: 0.34 },
+  { year: "2024", title: "End-to-end support takes shape", progress: 0.62 },
   { year: "2026", title: "Ready for what is next", progress: 0.9 },
 ];
 
