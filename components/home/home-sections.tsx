@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
@@ -1019,20 +1020,20 @@ export function HomeSections() {
             </h2>
           </div>
           <div className="flex flex-wrap gap-3">
-            <a
-              href="#contact"
+            <Link
+              href="/contact?type=consult"
               className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-brand px-5 text-sm font-semibold text-on-accent transition-colors hover:bg-brand-hover"
             >
               <Mail className="size-4" aria-hidden="true" />
               Request a Quote
-            </a>
-            <a
+            </Link>
+            <Link
               href="/services"
               className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border bg-background px-5 text-sm font-semibold text-foreground transition-colors hover:bg-card"
             >
               Contact Us
               <ArrowRight className="size-4" aria-hidden="true" />
-            </a>
+            </Link>
           </div>
         </PageContainer>
       </section>

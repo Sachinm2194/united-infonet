@@ -35,7 +35,7 @@ const navLinks = [
   { href: "/solutions", label: "Solutions" },
   { href: "#products", label: "Products" },
   { href: "/services", label: "Services" },
-  { href: "#contact", label: "Contact" },
+  { href: "/contact", label: "Contact" },
 ] as const;
 
 function isLinkActive(pathname: string, href: string, label?: string) {
@@ -554,7 +554,7 @@ export function Navbar() {
 
           <div className="flex items-center gap-2 sm:gap-3">
             <Link
-              href="#contact"
+              href="/contact?type=consult"
               className="navbar-quote-shimmer inline-flex h-9 shrink-0 items-center justify-center rounded-lg bg-brand px-3 text-xs font-medium text-on-accent transition-colors hover:bg-brand-hover sm:h-10 sm:px-4 sm:text-sm md:px-5"
             >
               Get a Quote
@@ -712,7 +712,7 @@ export function Navbar() {
 
                 <div className="shrink-0 border-t border-border bg-header px-3 py-3">
                   <Link
-                    href="#contact"
+                    href="/contact?type=consult"
                     tabIndex={isMenuOpen ? 0 : -1}
                     className="navbar-quote-shimmer flex min-h-14 items-center justify-center rounded-lg bg-brand px-4 text-sm font-medium text-on-accent transition-colors hover:bg-brand-hover"
                     onClick={() => setIsMenuOpen(false)}

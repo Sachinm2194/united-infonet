@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 
 import { CategoryBanner } from "@/components/products/category-banner";
 import { CiscoRepairServicePage } from "@/components/services/cisco-repair-service-page";
@@ -58,6 +60,20 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
       ) : (
         <ServiceDetailView service={service} />
       )}
+      <section className="border-t border-border-subtle bg-section-alt">
+        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-10">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">Need this service?</p>
+            <h2 className="mt-2 text-2xl font-bold tracking-tight text-foreground">Request a tailored quote.</h2>
+          </div>
+          <Link
+            href={`/contact?type=consult&product=${encodeURIComponent(service.title)}`}
+            className="inline-flex min-h-11 items-center justify-center gap-2 bg-brand px-5 text-sm font-semibold text-on-accent transition-colors hover:bg-brand-hover"
+          >
+            Get a Quote <ArrowRight className="size-4" aria-hidden />
+          </Link>
+        </div>
+      </section>
     </>
   );
 }

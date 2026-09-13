@@ -112,7 +112,7 @@ export function Footer() {
               </div>
 
               <Link
-                href="/contact"
+                href="/contact?type=consult"
                 className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
               >
                 Get a Quote
@@ -217,9 +217,11 @@ export function Footer() {
                     Visit Us
                   </span>
                   <span className="font-medium text-foreground">
-                    Plot 24, Business District,
+                    No-717, 1st Floor, 19th Main Rd, 2nd Block,
                     <br />
-                    IT Corridor, Bengaluru, India
+                    Jnanabharathi BDA Layout, Gnanabharathi Layout 2nd Block,
+                    <br />
+                    Nagadevana Halli, Bengaluru, Karnataka 560056
                   </span>
                 </span>
               </div>
@@ -273,7 +275,7 @@ export function Footer() {
 
               <li>
                 <Link
-                  href="/contact"
+                  href="/contact?type=consult"
                   className="group inline-flex items-center gap-2 text-sm text-secondary transition-colors hover:text-foreground"
                 >
                   <ArrowRight className="h-3.5 w-3.5 text-primary opacity-60 transition-transform group-hover:translate-x-1 group-hover:opacity-100" />

@@ -207,7 +207,7 @@ export function AboutPage() {
                 Explore Services <ArrowRight className="size-4" />
               </Link>
               <Link
-                href="#contact"
+                href="/contact"
                 className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border bg-background px-5 text-sm font-semibold hover:bg-card"
               >
                 Talk to us <ArrowRight className="size-4" />
@@ -436,7 +436,7 @@ export function AboutPage() {
           className="object-cover opacity-30"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/55" />
-        <div className="relative">
+        {/* <div className="relative">
           <PageContainer className="py-8 sm:py-12">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand">
               Let&apos;s connect
@@ -451,7 +451,7 @@ export function AboutPage() {
               Start a conversation <ArrowRight className="size-4" />
             </Link>
           </PageContainer>
-        </div>
+        </div> */}
       </section>
     </div>
   );
