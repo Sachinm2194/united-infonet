@@ -482,27 +482,24 @@ export function Navbar() {
 
   return (
     <>
-      <header ref={navbarRef} className={cn("sticky top-0 z-[70] border-b", isScrolled ? "border-border-subtle bg-header/95 backdrop-blur-md" : "border-transparent bg-header/80")}>
+      <header ref={navbarRef} className={cn("sticky top-0 z-[70] border-b dark:bg-[#0b141d]", isScrolled ? "border-border-subtle bg-header/95 dark:bg-[#0b141d]/95 backdrop-blur-md" : "border-transparent bg-header/80 dark:bg-[#0b141d]/90")}>
         <div ref={headerContentRef} className="relative z-[70] mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:gap-4 sm:px-6 lg:px-10">
           <Link
             href="/"
-            className="flex min-w-0 shrink items-center gap-2.5 sm:gap-3"
+            className="flex min-w-0 shrink flex-col items-start"
             onClick={() => setIsMenuOpen(false)}
           >
             <Image
-              src="/Images/UI-logo.svg"
+              src="/Images/ui-logo.png"
               alt="United Infonet"
-              width={36}
-              height={36}
+              width={180}
+              height={66}
               ref={logoRef}
-              className="size-10 shrink-0"
+              className="h-10 w-auto max-w-[11rem] shrink-0 object-contain sm:h-11 sm:max-w-[13rem]"
               priority
             />
-            <div className="flex min-w-0 flex-col">
-              <span className="truncate text-sm font-bold leading-tight text-foreground sm:text-base">
-                United Infonet
-              </span>
-              <span className="hidden text-xs leading-tight text-secondary sm:block">
+            <div className="flex min-w-0 flex-col pl-1">
+              <span className="text-[9px] leading-3 text-secondary dark:text-slate-300 sm:text-[10px]">
                 Performance. Security. Reliability.
               </span>
             </div>

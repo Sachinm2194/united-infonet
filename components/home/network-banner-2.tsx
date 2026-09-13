@@ -115,7 +115,7 @@ export function NetworkBanner2({
 		>
 			<div ref={imageRef} className="absolute inset-0 origin-center">
 				<Image
-					src="/Images/network-banner-2.png"
+					src="/Images/network-banner.png"
 					alt="Enterprise server infrastructure"
 					fill
 					priority
@@ -124,8 +124,8 @@ export function NetworkBanner2({
 				/>
 			</div>
 
-			<div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-background/70 via-background/35 to-transparent" />
-			<div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-background/5" />
+			<div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-background/70 via-background/35 to-transparent dark:block" />
+			<div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-t from-background/40 via-transparent to-background/5 dark:block" />
 
 			<div className="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col items-start justify-end px-4 pb-10 sm:px-6 sm:pb-14 lg:px-10 lg:pb-20">
 				<p
@@ -146,7 +146,7 @@ export function NetworkBanner2({
 				</p>
 				<h1
 					ref={titleRef}
-					className="max-w-2xl text-3xl font-bold leading-[1.05] text-foreground sm:text-5xl md:max-w-3xl md:text-5xl"
+					className="max-w-2xl text-3xl font-bold leading-[1.05] text-white sm:text-5xl md:max-w-3xl md:text-5xl"
 					aria-label={title}
 				>
 					{title.split(" ").map((word, wordIndex) => (
@@ -166,7 +166,7 @@ export function NetworkBanner2({
 				</h1>
 				<p
 					ref={subtitleRef}
-					className="mt-4 max-w-xl text-sm leading-relaxed text-secondary sm:text-base"
+					className="mt-4 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base"
 					style={{ opacity: 0, transform: "translateY(18px)" }}
 				>
 					{subtitle}

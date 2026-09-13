@@ -127,24 +127,17 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <Link href="/" className="inline-flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-background/70 shadow-sm">
-                <Image
-                  src="/Images/UI-logo.svg"
-                  alt="United Infonet"
-                  width={38}
-                  height={38}
-                />
-              </div>
-
-              <div>
-                <div className="text-lg font-bold tracking-tight">
-                  United Infonet
-                </div>
-                <div className="text-[10px] font-medium uppercase tracking-[0.24em] text-secondary">
-                  Technology Solutions
-                </div>
-              </div>
+            <Link href="/" className="inline-flex flex-col items-start">
+              <Image
+                src="/Images/ui-logo.png"
+                alt="United Infonet"
+                width={180}
+                height={66}
+                className="h-12 w-auto max-w-[13rem] object-contain sm:h-14"
+              />
+              <span className="pl-1 text-[10px] leading-3 text-secondary">
+                Performance. Security. Reliability.
+              </span>
             </Link>
 
             <p className="mt-4 max-w-md text-sm leading-6 text-secondary">
