@@ -427,20 +427,11 @@ export function Navbar() {
       });
     }
 
-    const quickHide = gsap.quickTo(navbarRef.current, "yPercent", {
-      duration: 0.35,
-      ease: "power2.out",
-    });
     const scrollTrigger = ScrollTrigger.create({
       start: 40,
       end: "max",
       onUpdate: (self) => {
         setIsScrolled(self.scroll() > 40);
-        if (!reducedMotion && window.innerWidth >= 1024) {
-          quickHide(self.direction === 1 && self.scroll() > 120 ? -100 : 0);
-        } else if (window.innerWidth < 1024) {
-          quickHide(0);
-        }
       },
     });
 
@@ -489,15 +480,10 @@ export function Navbar() {
     };
   }, [isMenuOpen]);
 
-  useEffect(() => {
-    if (!isMenuOpen || !navbarRef.current) return;
-    gsap.to(navbarRef.current, { yPercent: 0, duration: 0.2, ease: "power2.out" });
-  }, [isMenuOpen]);
-
   return (
     <>
       <header ref={navbarRef} className={cn("sticky top-0 z-[70] border-b", isScrolled ? "border-border-subtle bg-header/95 backdrop-blur-md" : "border-transparent bg-header/80")}>
-        <div ref={headerContentRef} className={cn("relative z-[70] mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 transition-[height] sm:gap-4 sm:px-6 lg:px-10", isScrolled ? "h-16" : "h-20")}>
+        <div ref={headerContentRef} className="relative z-[70] mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:gap-4 sm:px-6 lg:px-10">
           <Link
             href="/"
             className="flex min-w-0 shrink items-center gap-2.5 sm:gap-3"
@@ -509,7 +495,7 @@ export function Navbar() {
               width={36}
               height={36}
               ref={logoRef}
-              className={cn("shrink-0 transition-transform", isScrolled ? "size-8" : "size-10")}
+              className="size-10 shrink-0"
               priority
             />
             <div className="flex min-w-0 flex-col">
