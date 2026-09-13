@@ -10,6 +10,7 @@ import {
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { PageContainer } from "@/components/layout/page-container";
 import { ValuesNetwork } from "@/components/about/values-network";
+import { brands } from "@/lib/company-data";
 
 const stats = [
   { target: 10, suffix: "+", label: "Years of expertise" },
@@ -245,7 +246,7 @@ export function AboutPage() {
               className="absolute right-4 top-5 flex flex-col gap-2 sm:right-6 sm:top-8"
             >
               {["Secure", "Scalable", "Reliable", "Future-Ready"].map(
-                (badge, index) => (
+                (badge) => (
                   <div
                     data-badge
                     key={badge}
@@ -419,6 +420,39 @@ export function AboutPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </PageContainer>
+      </section>
+
+      <section className="border-b border-border bg-section-alt">
+        <PageContainer className="py-8 sm:py-12">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-brand">
+              Technology ecosystem
+            </p>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+              Brands we work with.
+            </h2>
+            <p className="mt-4 text-sm leading-6 text-secondary sm:text-base">
+              Trusted technology brands across networking, security, computing,
+              collaboration and infrastructure.
+            </p>
+          </div>
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+            {brands.map((brand) => (
+              <div
+                key={brand.name}
+                className="flex h-24 items-center justify-center border border-border-subtle bg-card px-5 transition-colors hover:border-brand/50"
+              >
+                <Image
+                  src={brand.src}
+                  alt={`${brand.name} logo`}
+                  width={150}
+                  height={56}
+                  className="max-h-12 w-auto max-w-full object-contain"
+                />
+              </div>
+            ))}
           </div>
         </PageContainer>
       </section>
