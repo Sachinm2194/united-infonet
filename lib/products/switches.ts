@@ -601,6 +601,49 @@ export const switchesData = {
       ]
     },
     {
+      "series": "Cisco 9300 Series Switches",
+      "series_name": "Cisco Catalyst 9300 Series Switches",
+      "images": [
+        "/products/switches/cisco-switch-9300-series/cisco-switch-9300-series-01.png",
+        "/products/switches/cisco-switch-9300-series/cisco-switch-9300-series-02.png",
+        "/products/switches/cisco-switch-9300-series/cisco-switch-9300-series-03.png",
+        "/products/switches/cisco-switch-9300-series/cisco-switch-9300-series-04.png"
+      ],
+      "description": "Cisco Catalyst 9300 Series switches provide secure, resilient and scalable access-layer connectivity with high-performance uplinks, Power over Ethernet and flexible deployment options.",
+      "models": [
+        {
+          "part_number": "C9300-48P-A/E",
+          "product_name": "Cisco Catalyst C9300-48P-A/E",
+          "description": "48-port PoE+ access switch with Cisco Catalyst 9300 Series enterprise access capabilities."
+        },
+        {
+          "part_number": "C9300-48U-A/E",
+          "product_name": "Cisco Catalyst C9300-48U-A/E",
+          "description": "48-port Universal Power over Ethernet access switch for enterprise campus deployments."
+        },
+        {
+          "part_number": "C9300-48UX-A/E",
+          "product_name": "Cisco Catalyst C9300-48UX-A/E",
+          "description": "48-port multigigabit access switch with PoE and flexible enterprise connectivity."
+        },
+        {
+          "part_number": "C9300-48UXM-A/E",
+          "product_name": "Cisco Catalyst C9300-48UXM-A/E",
+          "description": "48-port multigigabit and PoE access switch designed for high-density campus networks."
+        },
+        {
+          "part_number": "C9300X-24Y-A/E",
+          "product_name": "Cisco Catalyst C9300X-24Y-A/E",
+          "description": "High-performance 24-port switch with 25G-capable uplink connectivity for demanding access deployments."
+        },
+        {
+          "part_number": "C9300-48T-A/E",
+          "product_name": "Cisco Catalyst C9300-48T-A/E",
+          "description": "48-port data-only access switch for reliable enterprise campus connectivity."
+        }
+      ]
+    },
+    {
       "series": "Cisco 4500 Series Chassis",
       "series_name": "Cisco Catalyst 4500 Series Switches",
       "images": [

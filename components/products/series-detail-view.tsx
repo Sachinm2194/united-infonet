@@ -108,7 +108,7 @@ export function SeriesDetailView({ series, categoryName }: SeriesDetailViewProps
                     type="button"
                     onClick={() => setActiveImage(index)}
                     aria-label={`View product image ${index + 1}`}
-                    className={`relative aspect-[16/9] overflow-hidden rounded-md border bg-card transition ${
+                    className={`relative cursor-pointer aspect-[16/9] overflow-hidden rounded-md border bg-card transition ${
                       activeImage === index ? "border-brand ring-1 ring-brand" : "border-border-subtle"
                     }`}
                   >
