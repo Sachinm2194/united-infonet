@@ -33,6 +33,13 @@ export async function POST(request: Request) {
     );
   }
 
+  if (host === "smtp.gmail.com" && password.length !== 16) {
+    return NextResponse.json(
+      { error: "The Gmail app password must contain 16 characters after spaces are removed." },
+      { status: 503 },
+    );
+  }
+
   const transporter = nodemailer.createTransport({
     host,
     port,
@@ -61,18 +68,27 @@ export async function POST(request: Request) {
       code?: string;
       responseCode?: number;
       command?: string;
+      response?: string;
+      message?: string;
     };
     console.error("SMTP contact delivery failed", {
       code: smtpError.code,
       responseCode: smtpError.responseCode,
       command: smtpError.command,
+      response: smtpError.response,
     });
 
+    const diagnosticText = `${smtpError.response ?? ""} ${smtpError.message ?? ""}`.toLowerCase();
     const errorMessage =
-      smtpError.code === "EAUTH" || smtpError.responseCode === 535
+      smtpError.code === "EAUTH" ||
+      smtpError.responseCode === 535 ||
+      diagnosticText.includes("username and password") ||
+      diagnosticText.includes("authentication")
         ? "Gmail rejected the SMTP login. Check the mailbox and app password."
         : smtpError.code === "ECONNECTION" || smtpError.code === "ETIMEDOUT"
           ? "Could not connect to Gmail SMTP. Check the SMTP host and port."
+        : smtpError.responseCode === 550 || smtpError.responseCode === 553
+          ? "Gmail rejected the sender address. Check SMTP_FROM and the mailbox configuration."
           : "The SMTP server could not deliver your enquiry.";
 
     return NextResponse.json(

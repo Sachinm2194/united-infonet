@@ -249,7 +249,7 @@ export function ContactPage({ initialType, initialProduct }: ContactPageProps) {
               <div className="grid gap-5 sm:grid-cols-2">
                 <label className="block">
                   <span className="text-sm font-semibold">Your name *</span>
-                  <input name="name" required autoComplete="name" className="mt-2 h-12 w-full border border-input-border bg-background px-3 text-sm outline-none transition-colors placeholder:text-secondary/60 focus:border-brand focus:ring-2 focus:ring-brand/20" placeholder="e.g. Priya Sharma" />
+                  <input name="name" required autoComplete="name" className="mt-2 h-12 w-full border border-input-border bg-background px-3 text-sm outline-none transition-colors placeholder:text-secondary/60 focus:border-brand focus:ring-2 focus:ring-brand/20" placeholder="e.g. Raj Sharma" />
                 </label>
                 <label className="block">
                   <span className="text-sm font-semibold">Company</span>
