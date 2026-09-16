@@ -55,7 +55,7 @@ const PhoneIcon = ({ className = "" }: { className?: string }) => (
 
 const socialLinks = [
   {
-    href: "https://www.linkedin.com",
+    href: "https://www.linkedin.com/company/united-infonet-private-limited/",
     label: "LinkedIn",
     icon: LinkedinIcon,
     colorClass: "text-[#0A66C2]",
@@ -127,15 +127,15 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <Link href="/" className="inline-flex flex-col items-start">
+            <Link href="/" className="inline-flex flex-col items-center gap-0.5">
               <Image
                 src="/Images/ui-logo.png"
                 alt="United Infonet"
                 width={180}
                 height={66}
-                className="h-12 w-auto max-w-[13rem] object-contain sm:h-14"
+              className="h-auto w-[11rem] max-w-[11rem] shrink-0 object-contain"
               />
-              <span className="pl-1 text-[10px] leading-3 text-secondary">
+              <span className="text-center text-[10px] leading-3 text-secondary">
                 Performance. Security. Reliability.
               </span>
             </Link>

@@ -483,22 +483,22 @@ export function Navbar() {
   return (
     <>
       <header ref={navbarRef} className={cn("sticky top-0 z-[70] border-b dark:bg-[#0b141d]", isScrolled ? "border-border-subtle bg-header/95 dark:bg-[#0b141d]/95 backdrop-blur-md" : "border-transparent bg-header/80 dark:bg-[#0b141d]/90")}>
-        <div ref={headerContentRef} className="relative z-[70] mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:gap-4 sm:px-6 lg:px-10">
+        <div ref={headerContentRef} className="relative z-[70] mx-auto flex h-21 max-w-7xl items-center justify-between gap-3 px-4 sm:gap-4 sm:px-6 lg:px-10">
           <Link
             href="/"
-            className="flex min-w-0 shrink flex-col items-start"
+            className="flex min-w-0 shrink flex-col items-center "
             onClick={() => setIsMenuOpen(false)}
           >
             <Image
               src="/Images/ui-logo.png"
               alt="United Infonet"
               width={180}
-              height={66}
+              height={54}
               ref={logoRef}
-              className="h-10 w-auto max-w-[11rem] shrink-0 object-contain sm:h-11 sm:max-w-[13rem]"
+              className="h-auto w-[11rem] max-w-[11rem] shrink-0 object-contain"
               priority
             />
-            <div className="flex min-w-0 flex-col pl-1">
+            <div className="flex min-w-0 flex-col items-center justify-center text-center mb-1">
               <span className="text-[9px] leading-3 text-secondary dark:text-slate-300 sm:text-[10px]">
                 Performance. Security. Reliability.
               </span>

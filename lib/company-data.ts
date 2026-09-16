@@ -238,7 +238,6 @@ export const brands = [
   { name: "Cisco", src: "/partners/Cisco-logo.png" },
   { name: "Dell", src: "/partners/Dell-Log.webp" },
   { name: "Polycom", src: "/partners/polycom-logo-2.png" },
-
   { name: "Fortinet", src: "/partners/fortinet-logo.png" },
   { name: "HPE Aruba", src: "/partners/Hpe-aruba-networking-logo.svg.webp" },
   { name: "Microsoft", src: "/partners/microsoft-logo.png" },
@@ -248,6 +247,8 @@ export const brands = [
   { name: "Ruckus", src: "/partners/ruckus-logo.png" },
   { name: "Brocade", src: "/partners/brocade-logo.png" },
   { name: "Lenovo", src: "/partners/lenovo-logo.png" },
+  { name: "Finisar", src: "/partners/finisar.png" },
+
   
 ];
 
